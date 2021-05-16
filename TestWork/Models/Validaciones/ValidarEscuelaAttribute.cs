@@ -9,7 +9,7 @@ namespace Hogwarts.Models.Validaciones
     public class ValidarEscuelaAttribute : ValidationAttribute
     {
         /// <summary>
-        /// Validacion de las escuelas de Hogwarts
+        /// Validar escuelas de Hogwarts
         /// </summary>
         /// <param name="value"></param>
         /// <param name="validationContext"></param>
