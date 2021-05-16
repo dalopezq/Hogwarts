@@ -8,6 +8,12 @@ namespace Hogwarts.Models.Validaciones
 {
     public class ValidarEscuelaAttribute : ValidationAttribute
     {
+        /// <summary>
+        /// Validar escuelas de Hogwarts
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="validationContext"></param>
+        /// <returns></returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             List<string> Escuela = new List<string>()
