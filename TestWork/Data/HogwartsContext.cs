@@ -9,11 +9,21 @@ namespace Hogwarts.Data
 {
     public class HogwartsContext : DbContext
     {
+        public HogwartsContext() { }
+
         public HogwartsContext (DbContextOptions<HogwartsContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Hogwarts.Models.Estudiante> Estudiantes { get; set; }
+        public DbSet<Estudiante> Estudiantes { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Hogwarts;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            }
+        }
     }
 }

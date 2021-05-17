@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hogwarts.Data;
 using Hogwarts.Models;
+using Hogwarts.Interface;
 
 namespace Hogwarts.Controllers
 {
@@ -14,9 +15,9 @@ namespace Hogwarts.Controllers
     [ApiController]
     public class EstudianteController : ControllerBase
     {
-        private readonly HogwartsContext _context;
+        public readonly IEstudianteServicio _context;
 
-        public EstudianteController(HogwartsContext context)
+        public EstudianteController(IEstudianteServicio context)
         {
             _context = context;
         }
@@ -27,9 +28,9 @@ namespace Hogwarts.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Estudiante>>> GetEstudiantes()
+        public async Task<IEnumerable<Estudiante>> GetEstudiantes()
         {
-            return await _context.Estudiantes.ToListAsync();
+            return await _context.GetEstudiantes();
         }
 
         // PUT: api/Estudiantes/5
@@ -40,32 +41,9 @@ namespace Hogwarts.Controllers
         /// <param name="estudiantes"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEstudiantes(int id, Estudiante estudiantes)
+        public async Task PutEstudiantes(int id, Estudiante estudiantes)
         {
-            if (id != estudiantes.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(estudiantes).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EstudiantesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _context.UpdateEstudiante(id, estudiantes);
         }
 
         // POST: api/Estudiantes
@@ -75,12 +53,9 @@ namespace Hogwarts.Controllers
         /// <param name="estudiantes"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Estudiante>> PostEstudiantes(Estudiante estudiantes)
+        public async Task PostEstudiantes(Estudiante estudiantes)
         {
-            _context.Estudiantes.Add(estudiantes);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEstudiantes", new { id = estudiantes.Id }, estudiantes);
+            await _context.AddEstudiante(estudiantes);
         }
 
         // DELETE: api/Estudiantes/5
@@ -90,23 +65,9 @@ namespace Hogwarts.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Estudiante>> DeleteEstudiantes(int id)
+        public async Task Delete(int id)
         {
-            var estudiantes = await _context.Estudiantes.FindAsync(id);
-            if (estudiantes == null)
-            {
-                return NotFound();
-            }
-
-            _context.Estudiantes.Remove(estudiantes);
-            await _context.SaveChangesAsync();
-
-            return estudiantes;
-        }
-
-        private bool EstudiantesExists(int id)
-        {
-            return _context.Estudiantes.Any(e => e.Id == id);
+            await _context.DeleteEstudiante(id);
         }
     }
 }

@@ -9,6 +9,8 @@ using Hogwarts.Data;
 using System.IO;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Hogwarts.Middleware;
+using Hogwarts.Interface;
 
 namespace TestWork
 {
@@ -25,17 +27,10 @@ namespace TestWork
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
             services.AddDbContext<HogwartsContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("HogwartsContext")));
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hogwarts", Version = "v1" });
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+
+            IoC.AddRegistration(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
