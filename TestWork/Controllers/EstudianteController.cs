@@ -28,9 +28,9 @@ namespace Hogwarts.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<Estudiante>> GetEstudiantes()
+        public async Task<IActionResult> GetEstudiantes()
         {
-            return await _context.GetEstudiantes();
+            return Ok(await _context.GetEstudiantes());
         }
 
         // PUT: api/Estudiantes/5
@@ -41,9 +41,9 @@ namespace Hogwarts.Controllers
         /// <param name="estudiantes"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task PutEstudiantes(int id, Estudiante estudiantes)
+        public async Task<IActionResult> PutEstudiantes(int id, Estudiante estudiantes)
         {
-            await _context.UpdateEstudiante(id, estudiantes);
+            return Ok(await _context.UpdateEstudiante(id, estudiantes));
         }
 
         // POST: api/Estudiantes
@@ -53,9 +53,9 @@ namespace Hogwarts.Controllers
         /// <param name="estudiantes"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task PostEstudiantes(Estudiante estudiantes)
+        public async Task<IActionResult> PostEstudiantes(Estudiante estudiantes)
         {
-            await _context.AddEstudiante(estudiantes);
+           return Ok(await _context.AddEstudiante(estudiantes));
         }
 
         // DELETE: api/Estudiantes/5
@@ -65,9 +65,9 @@ namespace Hogwarts.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            await _context.DeleteEstudiante(id);
+            return Ok(await _context.DeleteEstudiante(id));
         }
     }
 }

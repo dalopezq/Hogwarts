@@ -14,7 +14,7 @@ namespace Hogwarts.Middleware
     {
         public static IServiceCollection AddRegistration(this IServiceCollection services)
         {
-            services.AddScoped<IEstudianteServicio, EstudianteServicio>();
+            services.AddTransient<IEstudianteServicio, EstudianteServicio>();
 
             services.AddSwaggerGen(c =>
             {

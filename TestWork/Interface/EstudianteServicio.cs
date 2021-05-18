@@ -10,38 +10,53 @@ namespace Hogwarts.Interface
 {
     public class EstudianteServicio : IEstudianteServicio
     {
-        private HogwartsContext _context = new HogwartsContext();
+        public readonly HogwartsContext _context;
 
-
-        public async Task DeleteEstudiante(int id)
+        public EstudianteServicio(HogwartsContext context)
         {
-            var estudiantes = await _context.Estudiantes.FindAsync(id);
-
-            if (estudiantes != null)
-            {
-                _context.Estudiantes.Remove(estudiantes);
-                await _context.SaveChangesAsync();
-            }
+            _context = context;
         }
 
-        public async Task<IEnumerable<Estudiante>> GetEstudiantes()
+        public async Task<Estudiante> DeleteEstudiante(int id)
+        {
+            var estudiante = await _context.Estudiantes.FindAsync(id);
+
+            if (estudiante != null)
+            {
+                _context.Estudiantes.Remove(estudiante);
+                await _context.SaveChangesAsync();
+                return estudiante;
+            }
+            return estudiante;
+        }
+
+        public async Task<List<Estudiante>> GetEstudiantes()
         {
             return await _context.Estudiantes.ToListAsync();
         }
 
-        public async Task AddEstudiante(Estudiante estudiante)
+        public async Task<Estudiante> AddEstudiante(Estudiante estudiante)
         {
-            _context.Estudiantes.Add(estudiante);
-            await _context.SaveChangesAsync();
+            var estudiantes = await _context.Estudiantes.FindAsync(estudiante.Id);
+
+            if (estudiantes == null)
+            {
+                _context.Estudiantes.Add(estudiante);
+                await _context.SaveChangesAsync();
+                return estudiante;
+            }
+            return estudiante;
         }
 
-        public async Task UpdateEstudiante(int id, Estudiante estudiantes)
+        public async Task<Estudiante> UpdateEstudiante(int id, Estudiante estudiante)
         {
-            if (id == estudiantes.Id)
+            if (id == estudiante.Id)
             {
-                _context.Entry(estudiantes).State = EntityState.Modified;
+                _context.Entry(estudiante).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+                return estudiante;
             }
+            return estudiante;
         }
     }
 }

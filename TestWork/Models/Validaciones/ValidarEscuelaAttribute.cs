@@ -16,7 +16,7 @@ namespace Hogwarts.Models.Validaciones
         /// <returns></returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            List<string> Escuela = new List<string>()
+            List<string> Hogwarts = new List<string>()
             {
                 "Gryffindor",
                 "Hufflepuff",
@@ -24,16 +24,14 @@ namespace Hogwarts.Models.Validaciones
                 "Slytherin"
             };
 
-            foreach (string str in Escuela)
+            foreach (string School in Hogwarts)
             {
-                if (str == value.ToString()) //Checks if String1 list has the current string.
+                if (School == value.ToString()) //Checks if str list has the current value.
                 {
                     return ValidationResult.Success;
                 }     
             }
-
-            var errorMessage = FormatErrorMessage(validationContext.DisplayName);
-            return new ValidationResult(errorMessage);
+            return new ValidationResult("La escuela no se encuentra en la lista actual");
         }
     }
 }

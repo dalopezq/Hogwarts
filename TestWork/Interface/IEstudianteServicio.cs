@@ -8,9 +8,9 @@ namespace Hogwarts.Interface
 {
     public interface IEstudianteServicio
     {
-        Task<IEnumerable<Estudiante>> GetEstudiantes();
-        Task DeleteEstudiante(int id);
-        Task AddEstudiante(Estudiante estudiante);
-        Task UpdateEstudiante(int id, Estudiante estudiantes);
+        Task<List<Estudiante>> GetEstudiantes();
+        Task<Estudiante> DeleteEstudiante(int id);
+        Task<Estudiante> AddEstudiante(Estudiante estudiante);
+        Task<Estudiante> UpdateEstudiante(int id, Estudiante estudiante);
     }
 }
