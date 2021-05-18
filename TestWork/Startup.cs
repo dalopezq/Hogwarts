@@ -28,7 +28,7 @@ namespace TestWork
         {
             services.AddControllers();
             services.AddDbContext<HogwartsContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("HogwartsContext")));
+                    options.UseSqlite(Configuration.GetConnectionString("HogwartsContext")));
 
             IoC.AddRegistration(services);
         }

@@ -18,12 +18,27 @@ namespace Hogwarts.Data
 
         public DbSet<Estudiante> Estudiantes { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            modelBuilder.Entity<Estudiante>(entity =>
             {
-                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Hogwarts;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            }
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Nombre).HasMaxLength(20);
+                entity.Property(e => e.Apellido).HasMaxLength(20);
+                entity.Property(e => e.Identificacion).HasMaxLength(10);
+                entity.Property(e => e.Edad).HasMaxLength(2);
+                entity.Property(e => e.Escuela).HasMaxLength(20);
+
+                entity.HasData(new Estudiante
+                {
+                    Id = 1,
+                    Nombre = "David",
+                    Apellido = "Lopez",
+                    Identificacion = "20614527",
+                    Edad = "29",
+                    Escuela = "Gryffindor"
+                });
+            });
         }
     }
 }
